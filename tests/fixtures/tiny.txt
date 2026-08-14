@@ -1,0 +1,17 @@
+def add(a, b):
+    """Tiny sample for BPE training. Repeat so merges exist.
+    Python katas teach short functions, unit tests, and write-test-fix loops.
+    """
+    return a + b
+
+
+def is_palindrome(s):
+    t = "".join(ch.lower() for ch in s if not ch.isspace())
+    return t == t[::-1]
+
+
+text = """
+The quick brown fox jumps over the lazy dog.
+Python is a programming language used for coding katas.
+Write a function, run tests, fix the solution, finish the episode.
+""" * 40

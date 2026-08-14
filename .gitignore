@@ -1,12 +1,22 @@
 # Data & checkpoints
-artifacts/
+artifacts/checkpoints/
+artifacts/logs/
 data/raw/
-data/problems/
+data/tokenized/
+data/mid/
+data/post/
+katas/synth.jsonl
+!artifacts/tokenizer/
+!artifacts/tokenizer/tokenizer.json
+!artifacts/figures/
+!artifacts/figures/**
 *.bin
 *.pt
 *.pth
 *.ckpt
 *.safetensors
+*.egg-info/
+wandb/
 
 # Python
 __pycache__/

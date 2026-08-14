@@ -1,0 +1,26 @@
+model: configs/model_tiny.yaml
+tokenizer: artifacts/tokenizer/tokenizer.json
+init_ckpt: artifacts/checkpoints/tiny/pretrain/best.pt
+device: cuda
+require_cuda: true
+seq_len: 128
+microbatch: 2
+grad_accum: 2
+max_iters: 120
+warmup_iters: 8
+lr: 1.0e-4
+min_lr: 1.0e-5
+betas: [0.9, 0.95]
+weight_decay: 0.1
+grad_clip: 1.0
+use_amp: true
+log_interval: 20
+ckpt_interval: 60
+mix_jsonl: data/mid/mix.jsonl
+out_dir: artifacts/checkpoints/tiny/mid
+log_csv: artifacts/logs/tiny_mid.csv
+seed: 42
+mix:
+  python: 0.25
+  single_turn: 0.40
+  traces: 0.35

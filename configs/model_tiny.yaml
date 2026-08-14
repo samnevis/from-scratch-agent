@@ -1,0 +1,17 @@
+# Temporary tiny model for <1h stage runs. Not the v1 88M lock.
+name: katalm-tiny
+d_model: 128
+n_layer: 2
+n_head: 4
+d_ff: 256
+dropout: 0.1
+block_size: 128
+vocab_size: 256
+tie_embeddings: true
+special_tokens:
+  - "<|user|>"
+  - "<|assistant|>"
+  - "<|tool|>"
+  - "<|obs|>"
+  - "<|end|>"
+  - "<|pad|>"

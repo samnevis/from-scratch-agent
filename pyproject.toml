@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kata-agent"
+version = "0.1.0"
+description = "From-scratch ~88M LM → Python kata coding agent"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "torch>=2.2",
+  "tokenizers>=0.15",
+  "pyyaml>=6.0",
+  "numpy>=1.24",
+  "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+data = ["datasets>=2.18", "huggingface_hub>=0.22"]
+
+[project.scripts]
+kata-agent = "agent.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["model*", "tokenizer*", "sandbox*", "agent*", "katas*", "train*", "eval*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"

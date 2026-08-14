@@ -1,0 +1,36 @@
+max_steps: 8
+test_timeout_s: 5
+truncate_chars: 2000
+tools:
+  - name: read_task
+    args: {}
+  - name: write_solution
+    args:
+      code: string
+  - name: run_tests
+    args: {}
+  - name: finish
+    args:
+      status: pass|fail
+      note: string
+denied_imports:
+  - os
+  - sys
+  - subprocess
+  - socket
+  - ctypes
+  - pathlib
+  - shutil
+  - importlib
+  - multiprocessing
+  - threading
+  - pickle
+  - marshal
+  - code
+  - builtins
+  - posix
+  - nt
+  - signal
+  - resource
+  - pty
+  - fcntl

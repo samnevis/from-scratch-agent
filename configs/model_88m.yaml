@@ -1,0 +1,17 @@
+# KataLM-88M — wiki-matched block dims (PLAN.md §2)
+name: katalm-88m
+d_model: 384
+n_layer: 6
+n_head: 6
+d_ff: 1536
+dropout: 0.1
+block_size: 512
+vocab_size: 32000
+tie_embeddings: true
+special_tokens:
+  - "<|user|>"
+  - "<|assistant|>"
+  - "<|tool|>"
+  - "<|obs|>"
+  - "<|end|>"
+  - "<|pad|>"
