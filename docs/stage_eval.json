@@ -1,0 +1,14 @@
+{
+  "table": {
+    "gold": {"hand": "30/30", "frozen": "40/40"},
+    "pretrain": {"hand": "0/30", "frozen": "0/40"},
+    "mid": {"hand": "29/30", "frozen": "39/40"},
+    "sft": {"hand": "29/30", "frozen": "35/40"}
+  },
+  "failed": {
+    "mid/hand": ["hand_030"],
+    "mid/frozen": ["synth_00212"],
+    "sft/hand": ["hand_030"],
+    "sft/frozen": ["synth_00205", "synth_00212", "synth_00215", "synth_00225", "synth_00235"]
+  }
+}

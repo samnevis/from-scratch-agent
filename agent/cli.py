@@ -63,6 +63,13 @@ def main(argv: list[str] | None = None) -> None:
     if args.cmd == "eval":
         if args.split == "hand":
             katas = all_hand()
+        elif args.split == "agent_eval":
+            from katas.bank import load_eval_ids
+
+            ids = load_eval_ids()
+            want = set(ids)
+            katas = [k for k in load_bank() if k.id in want]
+            katas.sort(key=lambda k: ids.index(k.id))
         else:
             katas = [k for k in load_bank() if k.split == args.split]
         if args.limit:

@@ -2,6 +2,8 @@
 
 KataLM 23.13M (`384d / 6L / 6H`, 32k tied BPE) trained from scratch on an RTX 4060, CUDA only.
 
+**Gold** is a scripted solver that already knows the answer (it checks the tests). **Pretrain / Mid / SFT** are the trained model after that stage.
+
 ## Data
 
 | Split | Tokens |
@@ -16,24 +18,21 @@ KataLM 23.13M (`384d / 6L / 6H`, 32k tied BPE) trained from scratch on an RTX 40
 |-------|-------|-------------|
 | Pretrain | 392,015 | best val 2.71 |
 | Mid | 20,000 | traces + code |
-| SFT | 12,000 | agent checkpoint |
+| SFT | 12,000 | post-train |
 
 ## Eval
 
-| Policy | Split | Success |
-|--------|-------|---------|
-| Gold | 30 hand katas | 30/30 |
-| SFT | 30 hand katas | 29/30 |
-| SFT | 40 frozen synth | 35/40 |
+Hand (30) = written katas. Frozen synth (40) = held-out generated katas. Pass = hidden tests succeed.
 
-Checkpoint: `artifacts/checkpoints/sft/best.pt`
+| Stage | Hand (30) | Frozen synth (40) |
+|-------|-----------|-------------------|
+| Gold | 30/30 | 40/40 |
+| Pretrain | 0/30 | 0/40 |
+| Mid | 29/30 | 39/40 |
+| SFT | 29/30 | 35/40 |
+
+![Stage ladder](../artifacts/figures/stage_ladder.svg)
 
 ```bash
-python -m agent.cli eval --policy gold --split hand
-python -m agent.cli eval --policy model --split hand \
-  --ckpt artifacts/checkpoints/sft/best.pt \
-  --tokenizer artifacts/tokenizer/tokenizer.json
-python -m agent.cli eval --policy model --split agent_eval \
-  --ckpt artifacts/checkpoints/sft/best.pt \
-  --tokenizer artifacts/tokenizer/tokenizer.json --limit 40
+python -m scripts.eval_stages
 ```

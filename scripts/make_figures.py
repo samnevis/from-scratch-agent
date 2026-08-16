@@ -86,7 +86,8 @@ def main() -> None:
         xs.append(step)
         tr.append(_f(row, "loss"))
         va.append(_f(row, "val"))
-    _svg(xs, {"train": tr, "val": va}, FIG / "pretrain_loss.svg", "Pretrain loss")
+    if xs:
+        _svg(xs, {"train": tr, "val": va}, FIG / "pretrain_loss.svg", "Pretrain loss")
 
     stages = []
     for name, file in (("mid", "mid.csv"), ("sft", "sft.csv"), ("dpo", "dpo.csv")):
@@ -101,7 +102,58 @@ def main() -> None:
             FIG / "stage_losses.svg",
             "Later-stage train loss",
         )
+    _stage_ladder()
     print(f"wrote figures under {FIG}", flush=True)
+
+
+def _stage_ladder() -> None:
+    import json
+
+    path = ROOT / "docs" / "stage_eval.json"
+    if not path.exists():
+        return
+    blob = json.loads(path.read_text(encoding="utf-8"))
+    table = blob.get("table") or {}
+    order = [("gold", "Gold"), ("pretrain", "Pretrain"), ("mid", "Mid"), ("sft", "SFT")]
+    rows = []
+    for key, label in order:
+        cell = table.get(key)
+        if not cell:
+            continue
+        hand = cell.get("hand", "0/1")
+        frozen = cell.get("frozen", "0/1")
+        hp, hn = [int(x) for x in hand.split("/")]
+        fp, fn = [int(x) for x in frozen.split("/")]
+        rows.append((label, hp / hn, fp / fn, hand, frozen))
+    if not rows:
+        return
+    w, h, pad = 720, 300, 56
+    n = len(rows)
+    group = (w - 2 * pad) / n
+    bar_w = group * 0.28
+    parts = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" font-family="ui-sans-serif,system-ui">',
+        '<rect width="100%" height="100%" fill="#f8fafc"/>',
+        f'<text x="{pad}" y="28" font-size="16" fill="#0f172a">Hidden-test pass rate by stage</text>',
+        f'<text x="{w - pad}" y="28" text-anchor="end" font-size="12" fill="#2563eb">Hand (30)</text>',
+        f'<text x="{w - pad}" y="44" text-anchor="end" font-size="12" fill="#059669">Frozen synth (40)</text>',
+    ]
+    for i, (label, hr, fr, hs, fs) in enumerate(rows):
+        x0 = pad + i * group + group * 0.18
+        y0 = 64
+        bh = h - pad - y0
+
+        def bar(x, rate, color, caption):
+            hh = max(rate * bh, 2)
+            y = y0 + bh - hh
+            parts.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{bar_w:.1f}" height="{hh:.1f}" fill="{color}" rx="3"/>')
+            parts.append(f'<text x="{x + bar_w / 2:.1f}" y="{y - 6:.1f}" text-anchor="middle" font-size="11" fill="#0f172a">{caption}</text>')
+
+        bar(x0, hr, "#2563eb", hs)
+        bar(x0 + bar_w + 8, fr, "#059669", fs)
+        parts.append(f'<text x="{x0 + bar_w + 4:.1f}" y="{h - 18}" text-anchor="middle" font-size="13" fill="#334155">{label}</text>')
+    parts.append("</svg>")
+    (FIG / "stage_ladder.svg").write_text("\n".join(parts) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":
