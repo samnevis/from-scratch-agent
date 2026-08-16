@@ -114,7 +114,7 @@ def _stage_ladder() -> None:
         return
     blob = json.loads(path.read_text(encoding="utf-8"))
     table = blob.get("table") or {}
-    order = [("gold", "Gold"), ("pretrain", "Pretrain"), ("mid", "Mid"), ("sft", "SFT")]
+    order = [("gold", "Gold"), ("pretrain", "Pretrain"), ("mid", "Agent")]
     rows = []
     for key, label in order:
         cell = table.get(key)
