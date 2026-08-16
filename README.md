@@ -4,16 +4,11 @@ From-scratch 23M language model trained into a Python kata agent: write → test
 
 ![Fail then fix](artifacts/figures/fail_fix.gif)
 
-**Pretrain** is the language model. **Agent** is that model after fine-tuning on code and tool traces (not RL).
+## Eval
 
-| Stage | Hand (30) | Frozen synth (40) |
-|-------|-----------|-------------------|
-| Pretrain | 0/30 | 0/40 |
-| Agent | 29/30 | 39/40 |
+**Hand (30).** Thirty written katas: short Python functions with visible tests the agent can run and hidden tests used only for scoring. After fine-tuning on tool traces, the agent solves **29/30**.
 
-Hand = 30 written katas. Frozen synth = 40 held-out generated katas. A pass means hidden tests succeed.
-
-![Stage ladder](artifacts/figures/stage_ladder.svg)
+**Frozen synth (40).** Forty generated katas held out of that fine-tune, same templates (add, clamp, string checks, and so on) with different constants. The agent solves **39/40**. A pass means the hidden tests succeed.
 
 ## Method
 - Own 32k BPE + KataLM from random init (23.13M, `384d / 6L / 6H`, tied embeddings)

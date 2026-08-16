@@ -2,8 +2,6 @@
 
 KataLM 23.13M (`384d / 6L / 6H`, 32k tied BPE) trained from scratch on an RTX 4060, CUDA only.
 
-**Pretrain** is the language model. **Agent** is that model after fine-tuning on code and tool traces (not RL).
-
 ## Data
 
 | Split | Tokens |
@@ -14,21 +12,16 @@ KataLM 23.13M (`384d / 6L / 6H`, 32k tied BPE) trained from scratch on an RTX 40
 
 ## Training
 
-| Stage | Steps | Val / notes |
-|-------|-------|-------------|
+| Stage | Steps | Notes |
+|-------|-------|-------|
 | Pretrain | 392,015 | best val 2.71 |
-| Agent | 20,000 | code + tool traces |
+| Agent fine-tune | 20,000 | code + tool traces |
 
 ## Eval
 
-Hand (30) = written katas. Frozen synth (40) = held-out generated katas. Pass = hidden tests succeed.
+**Hand (30).** Thirty written katas: short Python functions with visible tests the agent can run and hidden tests used only for scoring. After fine-tuning on tool traces, the agent solves **29/30**.
 
-| Stage | Hand (30) | Frozen synth (40) |
-|-------|-----------|-------------------|
-| Pretrain | 0/30 | 0/40 |
-| Agent | 29/30 | 39/40 |
-
-![Stage ladder](../artifacts/figures/stage_ladder.svg)
+**Frozen synth (40).** Forty generated katas held out of that fine-tune, same templates with different constants. The agent solves **39/40**. A pass means the hidden tests succeed.
 
 ```bash
 python -m agent.cli eval --policy model --split hand \
