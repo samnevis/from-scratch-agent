@@ -102,7 +102,7 @@ def main() -> None:
         OUT,
         save_all=True,
         append_images=frames[1:],
-        duration=1200,
+        duration=2400,
         loop=0,
         optimize=False,
         disposal=2,
