@@ -4,11 +4,10 @@ From-scratch 23M language model trained into a Python kata agent: write → test
 
 ![Fail then fix](artifacts/figures/fail_fix.gif)
 
-**Gold** is a scripted solver that already knows the answer (it checks the tests). **Pretrain** is the language model. **Agent** is that model after fine-tuning on code and tool traces (not RL).
+**Pretrain** is the language model. **Agent** is that model after fine-tuning on code and tool traces (not RL).
 
 | Stage | Hand (30) | Frozen synth (40) |
 |-------|-----------|-------------------|
-| Gold | 30/30 | 40/40 |
 | Pretrain | 0/30 | 0/40 |
 | Agent | 29/30 | 39/40 |
 
@@ -33,7 +32,6 @@ Pretrain val **2.71** after 392k steps.
 ```bash
 pip install -e ".[dev]"
 pytest -q
-python -m agent.cli eval --policy gold --split hand
 python -m agent.cli eval --policy model --split hand \
   --ckpt artifacts/checkpoints/mid/best.pt \
   --tokenizer artifacts/tokenizer/tokenizer.json
