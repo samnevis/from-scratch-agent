@@ -65,7 +65,7 @@ def main() -> None:
     st = run_episode(kata, recovery_policy)
     frames = [
         _scene(
-            "KataAgent",
+            "Python LM",
             [
                 ("Task: write add(a, b)", FG),
                 ("Return the sum of two numbers.", DIM),

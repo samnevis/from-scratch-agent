@@ -1,4 +1,4 @@
-# KataAgent — Pretrain → Mid → Post Python Kata Agent
+# Python LM — Pretrain → Mid → Post Python Function Agent
 
 **Domain (LOCKED):** Python katas — short functions, unit-test rewards, multi-turn write → test → fix agent.  
 **Base (LOCKED):** **Train the LM from scratch** (random init → your checkpoint). No Qwen/HF code model as the agent brain for v1.  

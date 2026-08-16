@@ -1,18 +1,18 @@
-# KataAgent
+# Python LM
 
-From-scratch 23M language model trained into a Python kata agent: write → test → fix.
+From-scratch 23M language model for short Python functions: write → test → fix.
 
 ![Fail then fix](artifacts/figures/fail_fix.gif)
 
 ## Eval
 
-**Hand (30).** Thirty written katas: short Python functions with visible tests the agent can run and hidden tests used only for scoring. After fine-tuning on tool traces, the agent solves **29/30**.
+**Hand (30).** Thirty written Python functions with visible tests the model can run and hidden tests used only for scoring. After fine-tuning on tool traces, it solves **29/30**.
 
-**Frozen synth (40).** Forty generated katas held out of that fine-tune, same templates (add, clamp, string checks, and so on) with different constants. The agent solves **39/40**. A pass means the hidden tests succeed.
+**Frozen synth (40).** Forty generated functions held out of that fine-tune, same templates (add, clamp, string checks, and so on) with different constants. It solves **39/40**. A pass means the hidden tests succeed.
 
 ## Method
-- Own 32k BPE + KataLM from random init (23.13M, `384d / 6L / 6H`, tied embeddings)
-- Pretrain on FineWeb-Edu, CodeSearchNet Python, and katas (175M tokens)
+- Own 32k BPE + decoder from random init (23.13M, `384d / 6L / 6H`, tied embeddings)
+- Pretrain on FineWeb-Edu, CodeSearchNet Python, and function text (175M tokens)
 - Fine-tune on code and verified tool traces into the write → test → fix loop
 - Tools: `read_task`, `write_solution`, `run_tests`, `finish`
 - CUDA only (RTX 4060)

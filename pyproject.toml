@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "kata-agent"
 version = "0.1.0"
-description = "From-scratch ~88M LM → Python kata coding agent"
+description = "From-scratch 23M language model for short Python functions"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
